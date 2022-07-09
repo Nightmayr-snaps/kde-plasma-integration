@@ -1,0 +1,934 @@
+---
+name: kde-plasma-integration-5-2004
+version: 5.24.5
+base: core20
+summary: Shared Qt 5.15
+description: |
+ This snap contains the necessary libraries required by
+ Qt Applications.
+confinement: strict
+grade: stable
+slots:
+    nightmayr-kde-plasma-integration-5-2004:
+      interface: content
+      read:
+        - /
+# plugs:
+#   nightmayr-kde-plasma-integration-5:
+#     default-provider: nightmayr-kde-plasma-integration-5-2004
+#     interface: content
+#     target: $SNAP/kf5
+#   qgnomeplatform:
+#     default-provider: qgnomeplatform
+#     interface: content
+#     target: $SNAP/qgnomeplatform
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf
+  - build-on: ppc64el
+compression: lzo
+parts:
+    extra-cmake-modules:
+        after: [ sources ]
+        source: https://invent.kde.org/frameworks/extra-cmake-modules.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: &buildenv
+        - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-4-2004-sdk/current
+        - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH
+        - PATH: $SNAPCRAFT_STAGE/usr/bin:$PATH
+    kcoreaddons:
+        after: [ extra-cmake-modules ]
+        source: https://invent.kde.org/frameworks/kcoreaddons.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+    kconfig:
+        after: [ extra-cmake-modules ]
+        source: https://invent.kde.org/frameworks/kconfig.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+    kcodecs:
+        source: https://invent.kde.org/frameworks/kcodecs.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    plasma-wayland-protocols:
+        source: https://invent.kde.org/libraries/plasma-wayland-protocols.git
+        source-tag: v1.7.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    ki18n:
+        source: https://invent.kde.org/frameworks/ki18n.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    karchive:
+        source: https://invent.kde.org/frameworks/karchive.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    kitemviews:
+        source: https://invent.kde.org/frameworks/kitemviews.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    kwidgetsaddons:
+        source: https://invent.kde.org/frameworks/kwidgetsaddons.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    kdbusaddons:
+        source: https://invent.kde.org/frameworks/kdbusaddons.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    solid:
+        source: https://invent.kde.org/frameworks/solid.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    kwindowsystem:
+        source: https://invent.kde.org/frameworks/kwindowsystem.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    kauth:
+        source: https://invent.kde.org/frameworks/kauth.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - kcoreaddons
+    kguiaddons:
+        source: https://invent.kde.org/frameworks/kguiaddons.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - plasma-wayland-protocols
+    kconfigwidgets:
+        source: https://invent.kde.org/frameworks/kconfigwidgets.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - kauth
+        - kcoreaddons
+        - kcodecs
+        - kconfig
+        - kguiaddons
+        - ki18n
+        - kwidgetsaddons
+    kiconthemes:
+        source: https://invent.kde.org/frameworks/kiconthemes.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - karchive
+        - kauth
+        - kcoreaddons
+        - kcodecs
+        - kconfig
+        - kconfigwidgets
+        - kwidgetsaddons
+        - kitemviews
+    kservice:
+        source: https://invent.kde.org/frameworks/kservice.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - kdbusaddons
+        - ki18n
+        - kconfig
+        - kcoreaddons
+    kcrash:
+        source: https://invent.kde.org/frameworks/kcrash.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - kwindowsystem
+        - kcoreaddons
+    kglobalaccel:
+        source: https://invent.kde.org/frameworks/kglobalaccel.git
+        source-tag: v5.94.0
+        stage-packages:
+          - libxcb-record0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - kconfig
+        - kcoreaddons
+        - kcrash
+        - kdbusaddons
+        - kwindowsystem
+    kxmlgui:
+        source: https://invent.kde.org/frameworks/kxmlgui.git
+        source-tag: v5.94.0
+        build-packages:
+          - libxcb-record0-dev
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - kitemviews
+        - kcoreaddons
+        - kauth
+        - kcodecs
+        - kconfig
+        - kconfigwidgets
+        - kguiaddons
+        - ki18n
+        - kiconthemes
+        - kwidgetsaddons
+        - kglobalaccel
+    kbookmarks:
+        source: https://invent.kde.org/frameworks/kbookmarks.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - kcoreaddons
+        - kauth
+        - kcodecs
+        - kconfig
+        - kwidgetsaddons
+        - kconfigwidgets
+        - kxmlgui
+    kcompletion:
+        source: https://invent.kde.org/frameworks/kcompletion.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - kconfig
+        - kwidgetsaddons
+    kjobwidgets:
+        source: https://invent.kde.org/frameworks/kjobwidgets.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - kcoreaddons
+        - kwidgetsaddons
+    sonnet:
+        source: https://invent.kde.org/frameworks/sonnet.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    ktextwidgets:
+        source: https://invent.kde.org/frameworks/ktextwidgets.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - kcompletion
+        - kcoreaddons
+        - kauth
+        - kcodecs
+        - kconfigwidgets
+        - ki18n
+        - kwidgetsaddons
+        - sonnet
+    phonon:
+        source: https://invent.kde.org/libraries/phonon.git
+        source-tag: v4.11.1
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    knotifications:
+        source: https://invent.kde.org/frameworks/knotifications.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - kwindowsystem
+        - kconfig
+        - kcoreaddons
+        - phonon
+    kio:
+        source: https://invent.kde.org/frameworks/kio.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - kservice
+        - solid
+        - kcrash
+        - kdbusaddons
+        - kcompletion
+        - kguiaddons
+        - kiconthemes
+        - kitemviews
+        - kjobwidgets
+        - kwindowsystem
+        - kbookmarks
+        - sonnet
+        - ki18n
+        - ktextwidgets
+        - karchive
+        - kcoreaddons
+        - kauth
+        - kcodecs
+        - kconfig
+        - kwidgetsaddons
+        - kconfigwidgets
+        - kxmlgui
+        - knotifications
+
+    kwayland:
+        source: https://invent.kde.org/frameworks/kwayland.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - plasma-wayland-protocols
+    kdecoration:
+        source: https://invent.kde.org/plasma/kdecoration.git
+        source-tag: v5.24.90
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - ki18n
+        - kcoreaddons
+    kirigami:
+        source: https://invent.kde.org/frameworks/kirigami.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    kpackage:
+        source: https://invent.kde.org/frameworks/kpackage.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - karchive
+        - ki18n
+        - kcoreaddons
+    attica:
+        source: https://invent.kde.org/frameworks/attica.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+    knewstuff:
+        source: https://invent.kde.org/frameworks/knewstuff.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - karchive
+        - kiconthemes
+        - kbookmarks
+        - kcompletion
+        - kjobwidgets
+        - solid
+        - kio
+        - kitemviews
+        - kpackage
+        - kservice
+        - sonnet
+        - ki18n
+        - ktextwidgets
+        - kcoreaddons
+        - kauth
+        - kcodecs
+        - kwidgetsaddons
+        - kconfigwidgets
+        - kxmlgui
+        - attica
+    frameworkintegration:
+        source: https://invent.kde.org/frameworks/frameworkintegration.git
+        source-tag: v5.94.0
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+        after:
+        - extra-cmake-modules
+        - kiconthemes
+        - knotifications
+        - kauth
+        - kcodecs
+        - kconfigwidgets
+        - kxmlgui
+        - kservice
+        - knewstuff
+        - kwidgetsaddons
+        - kcoreaddons
+        - kpackage
+        - ki18n
+    breeze:
+        after: [ extra-cmake-modules, kdecoration, ki18n, kguiaddons, kiconthemes, kwindowsystem, kirigami, kcoreaddons, kauth, kcodecs, kconfig, kwidgetsaddons, kconfigwidgets, frameworkintegration ]
+        source: https://invent.kde.org/plasma/breeze.git
+        source-tag: v5.24.90
+        plugin: cmake
+        cmake-generator: Ninja
+        cmake-parameters: 
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        build-environment: *buildenv
+    plasma-integration:
+        source: https://invent.kde.org/plasma/plasma-integration.git
+        source-branch: v5.24.5
+        cmake-parameters:
+        # - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DCMAKE_INSTALL_LIBDIR=lib/$SNAPCRAFT_ARCH_TRIPLET
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DENABLE_TESTING=OFF
+        - -DBUILD_TESTING=OFF
+        - -DKDE_SKIP_TEST_SETTINGS=ON
+        plugin: cmake
+        # build-environment: *buildenv
+        build-environment: 
+        - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH
+        - PATH: $SNAPCRAFT_STAGE/usr/bin:$PATH
+        - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-4-2004-sdk/current
+        - CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH:$SNAPCRAFT_STAGE
+        - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include
+        - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+        filesets:
+            exclusion:
+            - "-usr/lib/*/cmake/*"
+            - "-usr/lib/*/qt5/bin/moc"
+            - "-usr/lib/*/qt5/bin/qmake"
+            - "-usr/lib/*/qt5/bin/rcc"
+            - "-usr/lib/*/qt5/bin/*cpp*"
+            - "-usr/lib/qt5/bin/assistant"
+            - "-usr/lib/qt5/bin/designer"
+            - "-usr/lib/qt5/bin/lconvert"
+            - "-usr/lib/qt5/bin/linguist"
+            - "-usr/lib/qt5/bin/lupdate"
+            - "-usr/lib/qt5/bin/lrelease"
+            - "-usr/lib/qt5/bin/moc"
+            - "-usr/lib/qt5/bin/pixeltool"
+            - "-usr/lib/qt5/bin/qcollectiongenerator"
+            - "-usr/lib/qt5/bin/qdbuscpp2xml"
+            - "-usr/lib/qt5/bin/qdbusxml2cpp"
+            - "-usr/lib/qt5/bin/qdoc"
+            - "-usr/lib/qt5/bin/qhelpconverter"
+            - "-usr/lib/qt5/bin/qlalr"
+            - "-usr/lib/qt5/bin/qmake"
+            - "-usr/lib/qt5/bin/rcc"
+            - "-usr/lib/qt5/bin/syncqt.pl"
+            - "-usr/lib/vlc/plugins/gui/libqt4_plugin.so"
+            - "-usr/include/*"
+            - "-usr/share/ECM/*"
+            - "-usr/share/xml/docbook/*"
+            - "-usr/share/doc/*"
+            - "-usr/share/locale/*/LC_MESSAGES/vlc.mo"
+            - "-usr/share/man/*"
+            - "-usr/share/icons/breeze/*.rcc"
+            - "-usr/share/icons/breeze-dark/*.rcc"
+            - "-usr/share/wallpapers/*"
+            - "-usr/share/fonts/*"
+            - "-usr/share/pkgconfig"
+            - "-usr/lib/*/pkgconfig"
+            - "-usr/share/QtCurve"
+            - "-usr/share/kde4"
+            - "-usr/share/bug"
+            - "-usr/share/debhelper"
+            - "-usr/share/lintian"
+            - "-usr/share/menu"
+            - "-usr/bin/*vlc"
+            - "-usr/bin/dh_*"
+            - "-usr/lib/*/*.a"
+            - "-usr/lib/*/*.pri"
+            - "-usr/share/kf5/kdoctools/*"
+            - "-usr/bin/make"
+        prime:
+        - "$exclusion"
+        stage:
+        - "-usr/share/doc/*"
+        - "-usr/share/man/*"
+        - "-usr/share/icons/breeze/*.rcc"
+        - "-usr/share/wallpapers/*"
+        - "-usr/share/fonts/*"
+        after:
+        - extra-cmake-modules
+        - ki18n
+        - kiconthemes
+        - kio
+        - knotifications
+        - kwayland
+        - kwindowsystem
+        - kconfig
+        - kwidgetsaddons
+        - kconfigwidgets
+        - breeze
+
+    # caches:
+    #     after:
+    #     - qgnomeplatform
+    #     plugin: nil
+    #     build-packages:
+    #     - gtk-update-icon-cache
+    #     - libglib2.0-bin
+    #     - shared-mime-info
+    #     override-build: |
+    #         set -eux
+    #         snapcraftctl build
+    #         glib-compile-schemas $SNAPCRAFT_STAGE/usr/share/glib-2.0/schemas
+    #         update-mime-database $SNAPCRAFT_STAGE/usr/share/mime
+    #         for dir in $SNAPCRAFT_STAGE/usr/share/icons/*; do
+    #             if [ -f "$dir/index.theme" ]; then
+    #             gtk-update-icon-cache --force "$dir"
+    #             fi
+    #         done
+
+    # cleanup:
+    #     after:
+    #     - caches
+    #     plugin: nil
+    #     build-snaps:
+    #     - gtk-common-themes
+    #     override-prime: |
+    #         set -eux
+    #         cd /snap/gtk-common-themes/current
+    #         find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/usr/{} \;
+    #         cd $SNAPCRAFT_PRIME
+    #         rm -rf usr/share/doc
+    #         rm -rf usr/share/man
+    #         find . -type d -empty -delete
+
+    # Launchpad builders timeout internet access so fetching sources in advance
+    sources:
+        plugin: nil
+        build-snaps:
+        - cmake
+        - nightmayr-qt-5-15-4-2004-sdk/latest/candidate
+        build-packages:
+        - gcc-10
+        - g++-10
+        - rsync
+        # Qt
+        - build-essential
+        - autotools-dev
+        - binutils-gold
+        - bison
+        - cdbs
+        - flex
+        - freetds-dev
+        - git
+        - gnome-keyring
+        - gperf
+        - libasound2-dev
+        - libatspi2.0-dev
+        - libaudio-dev
+        - libbluetooth-dev
+        - libc6
+        - libcap-dev
+        - libclang-6.0-dev
+        - libcups2-dev
+        - libdbus-1-dev
+        - libedit-dev
+        - libegl1-mesa-dev
+        - libevent-dev
+        - libflac++-dev
+        # - libfontconfig1-dev
+        # - libfreetype6-dev
+        - libgcc1
+        - libgconf2-dev
+        - libgcrypt20-dev
+        - libgeoclue-2-dev
+        - libgl1-mesa-dev
+        - libglib2.0-dev
+        - libglu1-mesa-dev
+        - libgstreamer1.0-dev
+        - libgstreamer-plugins-base1.0-dev
+        - libgtk2.0-dev
+        - libgtk-3-dev
+        - libharfbuzz-dev
+        - libhunspell-dev
+        - libice-dev
+        - libicu-dev
+        - libjpeg-dev
+        - libjsoncpp-dev
+        - libmng-dev
+        - libmtdev-dev
+        - libmysqlclient-dev
+        - libnss3-dev
+        - libpci-dev
+        - libpng-dev
+        - libpq-dev
+        - libproxy-dev
+        - libsm-dev
+        - libsocketcan-dev
+        - libsqlite3-0
+        - libsqlite3-dev
+        - libsrtp2-dev
+        - libssl-dev
+        - libstdc++6
+        - libtiff5-dev
+        - libudev-dev
+        - libvulkan-dev
+        - libwayland-dev
+        - libwayland-egl1-mesa
+        - libx11-dev
+        - libx11-xcb1
+        - libx11-xcb-dev
+        - libxcb1
+        - libxcb1-dev
+        - libxcb-dri3-dev
+        - libxcb-glx0-dev
+        - libxcb-icccm4
+        - libxcb-icccm4-dev
+        - libxcb-image0
+        - libxcb-image0-dev
+        - libxcb-keysyms1
+        - libxcb-keysyms1-dev
+        - libxcb-randr0-dev
+        - libxcb-render0-dev
+        - libxcb-render-util0-dev
+        - libxcb-shape0-dev
+        - libxcb-shm0-dev
+        - libxcb-sync0-dev
+        - libxcb-sync-dev
+        - libxcb-util-dev
+        - libxcb-xfixes0-dev
+        - libxcb-xinerama0-dev
+        - libxcb-xinput-dev
+        - libxcomposite-dev
+        - libxcursor-dev
+        - libxext-dev
+        - libxft-dev
+        - libxi-dev
+        - libxinerama-dev
+        - libxkbcommon-dev
+        - libxkbcommon-x11-dev
+        - libxkbfile-dev
+        - libxrandr-dev
+        - libxrender-dev
+        - libxslt1-dev
+        - libxss-dev
+        - libxt-dev
+        - libxtst-dev
+        - llvm-6.0
+        - mesa-common-dev
+        - ninja-build
+        - pkg-config
+        - python2
+        - python3
+        - quilt
+        - re2c
+        - ruby
+        - unixodbc-dev
+        - zlib1g-dev
+        # kdoctools
+        - docbook-xml
+        - docbook-xsl
+        # kwindowsystem
+        - libxcb-res0-dev
+        # polkit-qt-1
+        - libpolkit-gobject-1-dev
+        - libpolkit-agent-1-dev
+        # kactivities
+        - libboost-dev
+        # kfilemetadata
+        - xattr
+        - libattr1-dev
+        # baloo
+        - liblmdb-dev
+        # kapidox
+        - python3-setuptools
+        # kcalendarcore
+        - libical-dev
+        # khtml
+        - libgif-dev
+        # modemmanager-qt
+        - modemmanager-dev
+        # networkmanager-qt
+        - libnm-dev
+        # prison
+        - libqrencode-dev
+        - libdmtx-dev
+        # libkdegames
+        - libsndfile1-dev
+        # ffmpeg & dependencies
+        - flite1-dev
+        - frei0r-plugins-dev
+        - ladspa-sdk
+        - libaribb24-dev
+        - libass-dev
+        - libbluray-dev
+        - libbs2b-dev
+        - libbz2-dev
+        - libcaca-dev
+        - libcdio-paranoia-dev
+        - libchromaprint-dev
+        - libcodec2-dev
+        - libdc1394-dev
+        - libdrm-dev
+        - libffmpeg-nvenc-dev
+        - libfontconfig-dev
+        - libfreetype-dev
+        - libfribidi-dev
+        - libgme-dev
+        - libgnutls28-dev
+        - libgsm1-dev
+        - libiec61883-dev
+        - libavc1394-dev
+        - libjack-jackd2-dev
+        - liblilv-dev
+        - liblzma-dev
+        - libmp3lame-dev
+        - libmysofa-dev
+        - libopenal-dev
+        - libomxil-bellagio-dev
+        - libopencore-amrnb-dev
+        - libopencore-amrwb-dev
+        - libopenjp2-7-dev
+        - libopenmpt-dev
+        - libopus-dev
+        - libpulse-dev
+        - librabbitmq-dev
+        - librubberband-dev
+        - librsvg2-dev
+        - libsctp-dev
+        - libshine-dev
+        - libsmbclient-dev
+        - libsnappy-dev
+        - libsoxr-dev
+        - libspeex-dev
+        - libssh-gcrypt-dev
+        - libtesseract-dev
+        - libtheora-dev
+        - libtwolame-dev
+        - libva-dev
+        - libvdpau-dev
+        - libvidstab-dev
+        - libvo-amrwbenc-dev
+        - libvorbis-dev
+        - libvpx-dev
+        - libwebp-dev
+        - libx265-dev
+        - libxml2-dev
+        - libxv-dev
+        - libxvidcore-dev
+        - libxvmc-dev
+        - libzmq3-dev
+        - libzvbi-dev
+        - ocl-icd-opencl-dev
+        - texinfo
+        - nasm
+        - pkg-kde-tools
+        - cleancss
+        - doxygen
+        - node-less
+        - tree
+        - yasm
+        - libxxhash-dev
