@@ -1,5 +1,5 @@
 ---
-name: kde-plasma-integration-5-2004
+name: nightmayr-kde-plasma-integration-5-2004
 version: 5.24.5
 base: core20
 summary: Shared Qt 5.15
@@ -543,6 +543,7 @@ parts:
         - kxmlgui
         - attica
     frameworkintegration:
+        after: [ extra-cmake-modules, kiconthemes, knotifications, kauth, kcodecs, kconfigwidgets, kxmlgui, kservice, knewstuff, kwidgetsaddons, kcoreaddons, kpackage, ki18n ]
         source: https://invent.kde.org/frameworks/frameworkintegration.git
         source-tag: v5.94.0
         plugin: cmake
@@ -553,20 +554,6 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
-        after:
-        - extra-cmake-modules
-        - kiconthemes
-        - knotifications
-        - kauth
-        - kcodecs
-        - kconfigwidgets
-        - kxmlgui
-        - kservice
-        - knewstuff
-        - kwidgetsaddons
-        - kcoreaddons
-        - kpackage
-        - ki18n
     breeze:
         after: [ extra-cmake-modules, kdecoration, ki18n, kguiaddons, kiconthemes, kwindowsystem, kirigami, kcoreaddons, kauth, kcodecs, kconfig, kwidgetsaddons, kconfigwidgets, frameworkintegration ]
         source: https://invent.kde.org/plasma/breeze.git
@@ -580,10 +567,13 @@ parts:
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
     plasma-integration:
+        after: [ extra-cmake-modules, ki18n, kiconthemes, kio, knotifications, kwayland, kwindowsystem, kconfig, kwidgetsaddons, kconfigwidgets, breeze ]
         source: https://invent.kde.org/plasma/plasma-integration.git
-        source-branch: v5.24.5
+        # source-branch: v5.24.5
+        source-branch: v5.25.3
+        plugin: cmake
+        cmake-generator: Ninja
         cmake-parameters:
-        # - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - -DCMAKE_INSTALL_PREFIX=/usr
         - -DCMAKE_INSTALL_LIBDIR=lib/$SNAPCRAFT_ARCH_TRIPLET
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
@@ -592,84 +582,28 @@ parts:
         - -DENABLE_TESTING=OFF
         - -DBUILD_TESTING=OFF
         - -DKDE_SKIP_TEST_SETTINGS=ON
-        plugin: cmake
+        - -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON
+        - -DCMAKE_FIND_USE_PACKAGE_REGISTRY=OFF
+        - -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY=ON
+        - -DCMAKE_VERBOSE_MAKEFILE=ON
         # build-environment: *buildenv
         build-environment: 
-        - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH
-        - PATH: $SNAPCRAFT_STAGE/usr/bin:$PATH
+        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
         - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-4-2004-sdk/current
-        - CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH:$SNAPCRAFT_STAGE
-        - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include
-        - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
-        filesets:
-            exclusion:
-            - "-usr/lib/*/cmake/*"
-            - "-usr/lib/*/qt5/bin/moc"
-            - "-usr/lib/*/qt5/bin/qmake"
-            - "-usr/lib/*/qt5/bin/rcc"
-            - "-usr/lib/*/qt5/bin/*cpp*"
-            - "-usr/lib/qt5/bin/assistant"
-            - "-usr/lib/qt5/bin/designer"
-            - "-usr/lib/qt5/bin/lconvert"
-            - "-usr/lib/qt5/bin/linguist"
-            - "-usr/lib/qt5/bin/lupdate"
-            - "-usr/lib/qt5/bin/lrelease"
-            - "-usr/lib/qt5/bin/moc"
-            - "-usr/lib/qt5/bin/pixeltool"
-            - "-usr/lib/qt5/bin/qcollectiongenerator"
-            - "-usr/lib/qt5/bin/qdbuscpp2xml"
-            - "-usr/lib/qt5/bin/qdbusxml2cpp"
-            - "-usr/lib/qt5/bin/qdoc"
-            - "-usr/lib/qt5/bin/qhelpconverter"
-            - "-usr/lib/qt5/bin/qlalr"
-            - "-usr/lib/qt5/bin/qmake"
-            - "-usr/lib/qt5/bin/rcc"
-            - "-usr/lib/qt5/bin/syncqt.pl"
-            - "-usr/lib/vlc/plugins/gui/libqt4_plugin.so"
-            - "-usr/include/*"
-            - "-usr/share/ECM/*"
-            - "-usr/share/xml/docbook/*"
-            - "-usr/share/doc/*"
-            - "-usr/share/locale/*/LC_MESSAGES/vlc.mo"
-            - "-usr/share/man/*"
-            - "-usr/share/icons/breeze/*.rcc"
-            - "-usr/share/icons/breeze-dark/*.rcc"
-            - "-usr/share/wallpapers/*"
-            - "-usr/share/fonts/*"
-            - "-usr/share/pkgconfig"
-            - "-usr/lib/*/pkgconfig"
-            - "-usr/share/QtCurve"
-            - "-usr/share/kde4"
-            - "-usr/share/bug"
-            - "-usr/share/debhelper"
-            - "-usr/share/lintian"
-            - "-usr/share/menu"
-            - "-usr/bin/*vlc"
-            - "-usr/bin/dh_*"
-            - "-usr/lib/*/*.a"
-            - "-usr/lib/*/*.pri"
-            - "-usr/share/kf5/kdoctools/*"
-            - "-usr/bin/make"
-        prime:
-        - "$exclusion"
+        - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
+        # - CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH:$SNAPCRAFT_STAGE
+        - CMAKE_PREFIX_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr
+        - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:/snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/include:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include
+        - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:/snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+        override-build: |
+            # rsync -a --ignore-existing /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr /
+            snapcraftctl build
         stage:
         - "-usr/share/doc/*"
         - "-usr/share/man/*"
         - "-usr/share/icons/breeze/*.rcc"
         - "-usr/share/wallpapers/*"
         - "-usr/share/fonts/*"
-        after:
-        - extra-cmake-modules
-        - ki18n
-        - kiconthemes
-        - kio
-        - knotifications
-        - kwayland
-        - kwindowsystem
-        - kconfig
-        - kwidgetsaddons
-        - kconfigwidgets
-        - breeze
 
     # caches:
     #     after:
