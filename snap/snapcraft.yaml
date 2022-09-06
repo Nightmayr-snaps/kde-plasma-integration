@@ -1,5 +1,5 @@
 ---
-name: nightmayr-kde-plasma-integration-5-2004
+name: nightmayr-plasma-integration-5-2004
 version: 5.25.4
 base: core20
 summary: Shared Qt 5.15
@@ -9,7 +9,7 @@ description: |
 confinement: strict
 grade: stable
 slots:
-    nightmayr-kde-plasma-integration-5-2004:
+    nightmayr-plasma-integration-5-2004:
       interface: content
       read:
         - /
