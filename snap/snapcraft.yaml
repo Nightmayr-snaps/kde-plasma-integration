@@ -158,6 +158,8 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
+        stage-packages:
+          - libxcb-res0
         after:
         - extra-cmake-modules
     kauth:
@@ -353,6 +355,8 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
+        stage-packages:
+          - libhunspell-1.7-0
         after:
         - extra-cmake-modules
     ktextwidgets:
@@ -387,6 +391,8 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
+        stage-packages:
+          - libpulse-mainloop-glib0
         after:
         - extra-cmake-modules
     knotifications:
@@ -590,6 +596,19 @@ parts:
         - "-usr/share/icons/breeze/*.rcc"
         - "-usr/share/wallpapers/*"
         - "-usr/share/fonts/*"
+
+    cleanup:
+        after:
+        - plasma-integration
+        plugin: nil
+        build-snaps:
+        - core20
+        - nightmayr-qt-5-15-4-2004
+        override-prime: |
+            set -eux
+            for snap in "core20" "nightmayr-qt-5-15-4-2004"; do
+                cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
+            done
 
     # caches:
     #     after:
