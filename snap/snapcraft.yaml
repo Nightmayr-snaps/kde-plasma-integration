@@ -21,7 +21,6 @@ architectures:
 compression: lzo
 parts:
     extra-cmake-modules:
-        after: [ sources ]
         source: https://invent.kde.org/frameworks/extra-cmake-modules.git
         source-tag: v5.97.0
         plugin: cmake
@@ -31,8 +30,14 @@ parts:
         - -DCMAKE_INSTALL_PREFIX=/usr
         build-environment: &buildenv
         - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-4-2004-sdk/current
-        - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH
+        - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig:/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
+        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
         - PATH: $SNAPCRAFT_STAGE/usr/bin:$PATH
+        build-snaps:
+          - nightmayr-qt-5-15-4-2004-sdk/latest/candidate
+          - cmake
+        build-packages:
+          - pkg-config
     kcoreaddons:
         after: [ extra-cmake-modules ]
         source: https://invent.kde.org/frameworks/kcoreaddons.git
@@ -62,6 +67,8 @@ parts:
         - -DCMAKE_BUILD_TYPE=Release
         - -DCMAKE_INSTALL_PREFIX=/usr
         build-environment: *buildenv
+        build-packages:
+          - gperf
         after:
         - extra-cmake-modules
     plasma-wayland-protocols:
@@ -86,6 +93,8 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
+        build-packages:
+          - gettext
         after:
         - extra-cmake-modules
     karchive:
@@ -97,6 +106,9 @@ parts:
         - -DCMAKE_BUILD_TYPE=Release
         - -DCMAKE_INSTALL_PREFIX=/usr
         build-environment: *buildenv
+        build-packages:
+          - zlib1g-dev
+          - libbz2-dev
         after:
         - extra-cmake-modules
     kitemviews:
@@ -145,6 +157,8 @@ parts:
         - -DCMAKE_BUILD_TYPE=Release
         - -DCMAKE_INSTALL_PREFIX=/usr
         build-environment: *buildenv
+        build-packages:
+          - libudev-dev
         after:
         - extra-cmake-modules
     kwindowsystem:
@@ -158,6 +172,12 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
+        build-packages:
+          - libxcb-keysyms1-dev
+          - libxcb-res0-dev
+          - libxcb-xfixes0-dev
+          - libxfixes-dev
+          - libxcb-icccm4-dev
         stage-packages:
           - libxcb-res0
         after:
@@ -187,6 +207,9 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
+        build-packages:
+          - libx11-dev
+          - libwayland-dev
         after:
         - extra-cmake-modules
         - plasma-wayland-protocols
@@ -238,6 +261,9 @@ parts:
         - -DCMAKE_BUILD_TYPE=Release
         - -DCMAKE_INSTALL_PREFIX=/usr
         build-environment: *buildenv
+        build-packages:
+          - bison
+          - flex
         after:
         - kdbusaddons
         - ki18n
@@ -355,6 +381,8 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
+        build-packages:
+          - libhunspell-dev
         stage-packages:
           - libhunspell-1.7-0
         after:
@@ -391,6 +419,9 @@ parts:
         - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: *buildenv
+        build-packages:
+          - libpulse-dev
+          - libglib2.0-dev
         stage-packages:
           - libpulse-mainloop-glib0
         after:
@@ -455,6 +486,12 @@ parts:
         - -DCMAKE_BUILD_TYPE=Release
         - -DCMAKE_INSTALL_PREFIX=/usr
         build-environment: *buildenv
+        build-packages:
+        - libegl-dev
+        - libegl1-mesa-dev
+        - libgl1-mesa-dev
+        - libwayland-egl1-mesa
+        - wayland-protocols
         after:
         - extra-cmake-modules
         - plasma-wayland-protocols
@@ -516,6 +553,8 @@ parts:
         - -DCMAKE_BUILD_TYPE=Release
         - -DCMAKE_INSTALL_PREFIX=/usr
         build-environment: *buildenv
+        build-packages:
+          - libgl-dev
         after:
         - extra-cmake-modules
         - karchive
@@ -586,10 +625,11 @@ parts:
         - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
         - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-4-2004-sdk/current
         - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
-        # - CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH:$SNAPCRAFT_STAGE
         - CMAKE_PREFIX_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr
         - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:/snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/include:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include
         - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:/snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+        build-packages:
+        - libxcursor-dev
         stage:
         - "-usr/share/doc/*"
         - "-usr/share/man/*"
@@ -628,246 +668,3 @@ parts:
     #             gtk-update-icon-cache --force "$dir"
     #             fi
     #         done
-
-    # cleanup:
-    #     after:
-    #     - caches
-    #     plugin: nil
-    #     build-snaps:
-    #     - gtk-common-themes
-    #     override-prime: |
-    #         set -eux
-    #         cd /snap/gtk-common-themes/current
-    #         find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/usr/{} \;
-    #         cd $SNAPCRAFT_PRIME
-    #         rm -rf usr/share/doc
-    #         rm -rf usr/share/man
-    #         find . -type d -empty -delete
-
-    # Launchpad builders timeout internet access so fetching sources in advance
-    sources:
-        plugin: nil
-        build-snaps:
-        - cmake
-        - nightmayr-qt-5-15-4-2004-sdk/latest/candidate
-        build-packages:
-        - gcc-10
-        - g++-10
-        - rsync
-        # Qt
-        - build-essential
-        - autotools-dev
-        - binutils-gold
-        - bison
-        - cdbs
-        - flex
-        - freetds-dev
-        - git
-        - gnome-keyring
-        - gperf
-        - libasound2-dev
-        - libatspi2.0-dev
-        - libaudio-dev
-        - libbluetooth-dev
-        - libc6
-        - libcap-dev
-        - libclang-6.0-dev
-        - libcups2-dev
-        - libdbus-1-dev
-        - libedit-dev
-        - libegl1-mesa-dev
-        - libevent-dev
-        - libflac++-dev
-        # - libfontconfig1-dev
-        # - libfreetype6-dev
-        - libgcc1
-        - libgconf2-dev
-        - libgcrypt20-dev
-        - libgeoclue-2-dev
-        - libgl1-mesa-dev
-        - libglib2.0-dev
-        - libglu1-mesa-dev
-        - libgstreamer1.0-dev
-        - libgstreamer-plugins-base1.0-dev
-        - libgtk2.0-dev
-        - libgtk-3-dev
-        - libharfbuzz-dev
-        - libhunspell-dev
-        - libice-dev
-        - libicu-dev
-        - libjpeg-dev
-        - libjsoncpp-dev
-        - libmng-dev
-        - libmtdev-dev
-        - libmysqlclient-dev
-        - libnss3-dev
-        - libpci-dev
-        - libpng-dev
-        - libpq-dev
-        - libproxy-dev
-        - libsm-dev
-        - libsocketcan-dev
-        - libsqlite3-0
-        - libsqlite3-dev
-        - libsrtp2-dev
-        - libssl-dev
-        - libstdc++6
-        - libtiff5-dev
-        - libudev-dev
-        - libvulkan-dev
-        - libwayland-dev
-        - libwayland-egl1-mesa
-        - libx11-dev
-        - libx11-xcb1
-        - libx11-xcb-dev
-        - libxcb1
-        - libxcb1-dev
-        - libxcb-dri3-dev
-        - libxcb-glx0-dev
-        - libxcb-icccm4
-        - libxcb-icccm4-dev
-        - libxcb-image0
-        - libxcb-image0-dev
-        - libxcb-keysyms1
-        - libxcb-keysyms1-dev
-        - libxcb-randr0-dev
-        - libxcb-render0-dev
-        - libxcb-render-util0-dev
-        - libxcb-shape0-dev
-        - libxcb-shm0-dev
-        - libxcb-sync0-dev
-        - libxcb-sync-dev
-        - libxcb-util-dev
-        - libxcb-xfixes0-dev
-        - libxcb-xinerama0-dev
-        - libxcb-xinput-dev
-        - libxcomposite-dev
-        - libxcursor-dev
-        - libxext-dev
-        - libxft-dev
-        - libxi-dev
-        - libxinerama-dev
-        - libxkbcommon-dev
-        - libxkbcommon-x11-dev
-        - libxkbfile-dev
-        - libxrandr-dev
-        - libxrender-dev
-        - libxslt1-dev
-        - libxss-dev
-        - libxt-dev
-        - libxtst-dev
-        - llvm-6.0
-        - mesa-common-dev
-        - ninja-build
-        - pkg-config
-        - python2
-        - python3
-        - quilt
-        - re2c
-        - ruby
-        - unixodbc-dev
-        - zlib1g-dev
-        # kdoctools
-        - docbook-xml
-        - docbook-xsl
-        # kwindowsystem
-        - libxcb-res0-dev
-        # polkit-qt-1
-        - libpolkit-gobject-1-dev
-        - libpolkit-agent-1-dev
-        # kactivities
-        - libboost-dev
-        # kfilemetadata
-        - xattr
-        - libattr1-dev
-        # baloo
-        - liblmdb-dev
-        # kapidox
-        - python3-setuptools
-        # kcalendarcore
-        - libical-dev
-        # khtml
-        - libgif-dev
-        # modemmanager-qt
-        - modemmanager-dev
-        # networkmanager-qt
-        - libnm-dev
-        # prison
-        - libqrencode-dev
-        - libdmtx-dev
-        # libkdegames
-        - libsndfile1-dev
-        # ffmpeg & dependencies
-        - flite1-dev
-        - frei0r-plugins-dev
-        - ladspa-sdk
-        - libaribb24-dev
-        - libass-dev
-        - libbluray-dev
-        - libbs2b-dev
-        - libbz2-dev
-        - libcaca-dev
-        - libcdio-paranoia-dev
-        - libchromaprint-dev
-        - libcodec2-dev
-        - libdc1394-dev
-        - libdrm-dev
-        - libffmpeg-nvenc-dev
-        - libfontconfig-dev
-        - libfreetype-dev
-        - libfribidi-dev
-        - libgme-dev
-        - libgnutls28-dev
-        - libgsm1-dev
-        - libiec61883-dev
-        - libavc1394-dev
-        - libjack-jackd2-dev
-        - liblilv-dev
-        - liblzma-dev
-        - libmp3lame-dev
-        - libmysofa-dev
-        - libopenal-dev
-        - libomxil-bellagio-dev
-        - libopencore-amrnb-dev
-        - libopencore-amrwb-dev
-        - libopenjp2-7-dev
-        - libopenmpt-dev
-        - libopus-dev
-        - libpulse-dev
-        - librabbitmq-dev
-        - librubberband-dev
-        - librsvg2-dev
-        - libsctp-dev
-        - libshine-dev
-        - libsmbclient-dev
-        - libsnappy-dev
-        - libsoxr-dev
-        - libspeex-dev
-        - libssh-gcrypt-dev
-        - libtesseract-dev
-        - libtheora-dev
-        - libtwolame-dev
-        - libva-dev
-        - libvdpau-dev
-        - libvidstab-dev
-        - libvo-amrwbenc-dev
-        - libvorbis-dev
-        - libvpx-dev
-        - libwebp-dev
-        - libx265-dev
-        - libxml2-dev
-        - libxv-dev
-        - libxvidcore-dev
-        - libxvmc-dev
-        - libzmq3-dev
-        - libzvbi-dev
-        - ocl-icd-opencl-dev
-        - texinfo
-        - nasm
-        - pkg-kde-tools
-        - cleancss
-        - doxygen
-        - node-less
-        - tree
-        - yasm
-        - libxxhash-dev
