@@ -1,7 +1,7 @@
 ---
-name: nightmayr-plasma-integration-5-2004
-version: 5.25.4
-base: core20
+name: nightmayr-plasma-integration-5-2204
+version: 5.25.5
+base: core22
 summary: Shared Qt 5.15
 description: |
  This snap contains the necessary libraries required by
@@ -9,7 +9,7 @@ description: |
 confinement: strict
 grade: stable
 slots:
-    nightmayr-plasma-integration-5-2004:
+    nightmayr-plasma-integration-5-2204:
       interface: content
       read:
         - /
@@ -22,26 +22,26 @@ compression: lzo
 parts:
     extra-cmake-modules:
         source: https://invent.kde.org/frameworks/extra-cmake-modules.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
         - -DCMAKE_BUILD_TYPE=Release
         - -DCMAKE_INSTALL_PREFIX=/usr
         build-environment: &buildenv
-        - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-4-2004-sdk/current
-        - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig:/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
-        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+        - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-6-2204-sdk/current
+        - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig:/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
+        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
         - PATH: $SNAPCRAFT_STAGE/usr/bin:$PATH
         build-snaps:
-          - nightmayr-qt-5-15-4-2004-sdk/latest/candidate
+          - nightmayr-qt-5-15-6-2204-sdk/latest/candidate
           - cmake
         build-packages:
           - pkg-config
     kcoreaddons:
         after: [ extra-cmake-modules ]
         source: https://invent.kde.org/frameworks/kcoreaddons.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -51,7 +51,7 @@ parts:
     kconfig:
         after: [ extra-cmake-modules ]
         source: https://invent.kde.org/frameworks/kconfig.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -60,7 +60,7 @@ parts:
         build-environment: *buildenv
     kcodecs:
         source: https://invent.kde.org/frameworks/kcodecs.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -73,7 +73,7 @@ parts:
         - extra-cmake-modules
     plasma-wayland-protocols:
         source: https://invent.kde.org/libraries/plasma-wayland-protocols.git
-        source-tag: v1.7.0
+        source-tag: v1.8.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -84,7 +84,7 @@ parts:
         - extra-cmake-modules
     ki18n:
         source: https://invent.kde.org/frameworks/ki18n.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -99,7 +99,7 @@ parts:
         - extra-cmake-modules
     karchive:
         source: https://invent.kde.org/frameworks/karchive.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -113,7 +113,7 @@ parts:
         - extra-cmake-modules
     kitemviews:
         source: https://invent.kde.org/frameworks/kitemviews.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -126,7 +126,7 @@ parts:
         - extra-cmake-modules
     kwidgetsaddons:
         source: https://invent.kde.org/frameworks/kwidgetsaddons.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -139,7 +139,7 @@ parts:
         - extra-cmake-modules
     kdbusaddons:
         source: https://invent.kde.org/frameworks/kdbusaddons.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -150,7 +150,7 @@ parts:
         - extra-cmake-modules
     solid:
         source: https://invent.kde.org/frameworks/solid.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -163,7 +163,7 @@ parts:
         - extra-cmake-modules
     kwindowsystem:
         source: https://invent.kde.org/frameworks/kwindowsystem.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -184,7 +184,7 @@ parts:
         - extra-cmake-modules
     kauth:
         source: https://invent.kde.org/frameworks/kauth.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -198,7 +198,7 @@ parts:
         - kcoreaddons
     kguiaddons:
         source: https://invent.kde.org/frameworks/kguiaddons.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -215,7 +215,7 @@ parts:
         - plasma-wayland-protocols
     kconfigwidgets:
         source: https://invent.kde.org/frameworks/kconfigwidgets.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -234,7 +234,7 @@ parts:
         - kwidgetsaddons
     kiconthemes:
         source: https://invent.kde.org/frameworks/kiconthemes.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -254,7 +254,7 @@ parts:
         - kitemviews
     kservice:
         source: https://invent.kde.org/frameworks/kservice.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -271,7 +271,7 @@ parts:
         - kcoreaddons
     kcrash:
         source: https://invent.kde.org/frameworks/kcrash.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -283,7 +283,7 @@ parts:
         - kcoreaddons
     kglobalaccel:
         source: https://invent.kde.org/frameworks/kglobalaccel.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         stage-packages:
           - libxcb-record0
         plugin: cmake
@@ -302,7 +302,7 @@ parts:
         - kwindowsystem
     kxmlgui:
         source: https://invent.kde.org/frameworks/kxmlgui.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         build-packages:
           - libxcb-record0-dev
         plugin: cmake
@@ -327,7 +327,7 @@ parts:
         - kglobalaccel
     kbookmarks:
         source: https://invent.kde.org/frameworks/kbookmarks.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -344,7 +344,7 @@ parts:
         - kxmlgui
     kcompletion:
         source: https://invent.kde.org/frameworks/kcompletion.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -359,7 +359,7 @@ parts:
         - kwidgetsaddons
     kjobwidgets:
         source: https://invent.kde.org/frameworks/kjobwidgets.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -372,7 +372,7 @@ parts:
         - kwidgetsaddons
     sonnet:
         source: https://invent.kde.org/frameworks/sonnet.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -389,7 +389,7 @@ parts:
         - extra-cmake-modules
     ktextwidgets:
         source: https://invent.kde.org/frameworks/ktextwidgets.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -428,7 +428,7 @@ parts:
         - extra-cmake-modules
     knotifications:
         source: https://invent.kde.org/frameworks/knotifications.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -443,7 +443,7 @@ parts:
         - phonon
     kio:
         source: https://invent.kde.org/frameworks/kio.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -479,7 +479,7 @@ parts:
         - knotifications
     kwayland:
         source: https://invent.kde.org/frameworks/kwayland.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
@@ -510,7 +510,7 @@ parts:
         - kcoreaddons
     kirigami:
         source: https://invent.kde.org/frameworks/kirigami.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -521,7 +521,7 @@ parts:
         - extra-cmake-modules
     kpackage:
         source: https://invent.kde.org/frameworks/kpackage.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -535,7 +535,7 @@ parts:
         - kcoreaddons
     attica:
         source: https://invent.kde.org/frameworks/attica.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -546,7 +546,7 @@ parts:
         - extra-cmake-modules
     knewstuff:
         source: https://invent.kde.org/frameworks/knewstuff.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -580,7 +580,7 @@ parts:
     frameworkintegration:
         after: [ extra-cmake-modules, kiconthemes, knotifications, kauth, kcodecs, kconfigwidgets, kxmlgui, kservice, knewstuff, kwidgetsaddons, kcoreaddons, kpackage, ki18n ]
         source: https://invent.kde.org/frameworks/frameworkintegration.git
-        source-tag: v5.97.0
+        source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters: 
@@ -622,12 +622,12 @@ parts:
         - -DCMAKE_VERBOSE_MAKEFILE=ON
         # build-environment: *buildenv
         build-environment: 
-        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-        - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-4-2004-sdk/current
-        - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
-        - CMAKE_PREFIX_PATH: /snap/nightmayr-qt-5-15-4-2004-sdk/current/usr
-        - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:/snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/include:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include
-        - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:/snap/nightmayr-qt-5-15-4-2004-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+        - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-6-2204-sdk/current
+        - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
+        - CMAKE_PREFIX_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr
+        - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:/snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/include:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include
+        - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:/snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
         build-packages:
         - libxcursor-dev
         stage:
@@ -642,12 +642,12 @@ parts:
         - plasma-integration
         plugin: nil
         build-snaps:
-        - core20
-        - nightmayr-qt-5-15-4-2004
+        - core22
+        - nightmayr-qt-5-15-6-2204
         override-prime: |
             set -eux
-            for snap in "core20" "nightmayr-qt-5-15-4-2004"; do
-                cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
+            for snap in "core22" "nightmayr-qt-5-15-6-2204"; do
+                cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$CRAFT_PRIME/{}" \;
             done
 
     # caches:
