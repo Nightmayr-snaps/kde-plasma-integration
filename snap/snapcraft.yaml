@@ -25,14 +25,16 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
+        cmake-parameters: &cmake-params
         - -DCMAKE_BUILD_TYPE=Release
         - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-6-2204-sdk/current
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$CRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$CRAFT_ARCH_TRIPLET/qt5/plugins
         build-environment: &buildenv
-        - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-6-2204-sdk/current
-        - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig:/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
-        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-        - PATH: $SNAPCRAFT_STAGE/usr/bin:$PATH
+        - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig:/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
+        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+        - PATH: $CRAFT_STAGE/usr/bin:$PATH
         build-snaps:
           - nightmayr-qt-5-15-6-2204-sdk/latest/candidate
           - cmake
@@ -44,9 +46,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
     kconfig:
         after: [ extra-cmake-modules ]
@@ -54,18 +54,14 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
     kcodecs:
         source: https://invent.kde.org/frameworks/kcodecs.git
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - gperf
@@ -76,9 +72,7 @@ parts:
         source-tag: v1.8.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -87,11 +81,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - gettext
@@ -102,9 +92,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - zlib1g-dev
@@ -116,11 +104,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -129,11 +113,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -142,9 +122,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -153,9 +131,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - libudev-dev
@@ -166,11 +142,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - libxcb-keysyms1-dev
@@ -187,11 +159,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -201,11 +169,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - libx11-dev
@@ -218,11 +182,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - kauth
@@ -237,11 +197,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - karchive
@@ -257,9 +213,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - bison
@@ -274,9 +228,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - kwindowsystem
@@ -288,11 +240,7 @@ parts:
           - libxcb-record0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - kconfig
@@ -307,11 +255,7 @@ parts:
           - libxcb-record0-dev
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - kitemviews
@@ -330,9 +274,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - kcoreaddons
@@ -347,11 +289,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -362,9 +300,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -375,11 +311,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - libhunspell-dev
@@ -392,11 +324,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -413,11 +341,7 @@ parts:
         source-tag: v4.11.1
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - libpulse-dev
@@ -431,9 +355,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -446,11 +368,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -482,9 +400,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters:
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
         - libegl-dev
@@ -492,6 +408,7 @@ parts:
         - libgl1-mesa-dev
         - libwayland-egl1-mesa
         - wayland-protocols
+        - libxkbcommon-dev
         after:
         - extra-cmake-modules
         - plasma-wayland-protocols
@@ -500,9 +417,7 @@ parts:
         source-tag: v$SNAPCRAFT_PROJECT_VERSION
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -513,9 +428,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -524,9 +437,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -538,9 +449,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         after:
         - extra-cmake-modules
@@ -549,9 +458,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
         build-packages:
           - libgl-dev
@@ -583,11 +490,7 @@ parts:
         source-tag: v5.98.0
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
     breeze:
         after: [ extra-cmake-modules, kdecoration, ki18n, kguiaddons, kiconthemes, kwindowsystem, kirigami, kcoreaddons, kauth, kcodecs, kconfig, kwidgetsaddons, kconfigwidgets, frameworkintegration ]
@@ -595,11 +498,7 @@ parts:
         source-tag: v$SNAPCRAFT_PROJECT_VERSION
         plugin: cmake
         cmake-generator: Ninja
-        cmake-parameters: 
-        - -DCMAKE_BUILD_TYPE=Release
-        - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        cmake-parameters: *cmake-params
         build-environment: *buildenv
     plasma-integration:
         after: [ extra-cmake-modules, ki18n, kiconthemes, kio, knotifications, kwayland, kwindowsystem, kconfig, kwidgetsaddons, kconfigwidgets, breeze ]
@@ -608,10 +507,11 @@ parts:
         plugin: cmake
         cmake-generator: Ninja
         cmake-parameters:
+        - -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-6-2204-sdk/current
         - -DCMAKE_INSTALL_PREFIX=/usr
-        - -DCMAKE_INSTALL_LIBDIR=lib/$SNAPCRAFT_ARCH_TRIPLET
-        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
-        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET
+        - -DKDE_INSTALL_PLUGINDIR:PATH=/usr/lib/$CRAFT_ARCH_TRIPLET/qt5/plugins
+        - -DKDE_INSTALL_QTPLUGINDIR:PATH=/usr/lib/$CRAFT_ARCH_TRIPLET/qt5/plugins
         - -DCMAKE_BUILD_TYPE=Release
         - -DENABLE_TESTING=OFF
         - -DBUILD_TESTING=OFF
@@ -622,12 +522,9 @@ parts:
         - -DCMAKE_VERBOSE_MAKEFILE=ON
         # build-environment: *buildenv
         build-environment: 
-        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-        - SNAPCRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/nightmayr-qt-5-15-6-2204-sdk/current
+        - LD_LIBRARY_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
         - PKG_CONFIG_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET/pkgconfig${PKG_CONFIG_PATH:+:PKG_CONFIG_PATH}
         - CMAKE_PREFIX_PATH: /snap/nightmayr-qt-5-15-6-2204-sdk/current/usr
-        - CMAKE_INCLUDE_PATH: $CMAKE_INCLUDE_PATH:/snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/include:$SNAPCRAFT_STAGE/include:$SNAPCRAFT_STAGE/usr/include
-        - CMAKE_LIBRARY_PATH: $CMAKE_LIBRARY_PATH:/snap/nightmayr-qt-5-15-6-2204-sdk/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/lib:$SNAPCRAFT_STAGE/usr/lib:$SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
         build-packages:
         - libxcursor-dev
         stage:
